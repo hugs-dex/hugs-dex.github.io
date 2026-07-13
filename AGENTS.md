@@ -21,6 +21,17 @@ These instructions apply to the entire repository.
 
 Do not introduce a build system unless explicitly requested. The site should remain directly usable as static HTML/CSS/JS.
 
+## Agent Working Materials
+
+The `.agents/` directory contains internal planning references for the HUGS blog. It is not a source of paper facts unless the user has explicitly supplied that fact there.
+
+- `.agents/blog_reference_grounding.md` — Narrative, evidence-ordering, terminology, and page-UX guidance distilled from reference blogs. Read this before drafting or implementing a HUGS blog page, and use it when evaluating blog structure, media placement, claims, and responsive reading flow. Do not use it as evidence for paper results, numbers, or limitations.
+- `.agents/hugs_blog_outline_zh.md` — The working Chinese outline for the HUGS blog. Use it when revising the HUGS blog narrative, section order, or planned supporting media. Treat it as a living planning document: factual claims included in the eventual page must still be checked against the paper PDF or user-provided source material.
+
+When a task concerns the HUGS blog, consult `blog_reference_grounding.md` first, then use `hugs_blog_outline_zh.md` for the current content structure.
+
+- Write all published HUGS blog content in English. The Chinese outline is a planning reference for structure and intent, not the publication language.
+
 ## Content Rules
 
 - Do not invent paper claims, numbers, author names, links, or results.
