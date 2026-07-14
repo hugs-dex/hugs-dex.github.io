@@ -6,6 +6,18 @@
     <meta name="description" content="Towards Human-to-Sim-to-Real dexterous manipulation, explored through unified dexterous grasping with HUGS.">
     <title>Towards Human-to-Sim-to-Real Dexterous Manipulation: An Exploration Through Dexterous Grasping</title>
     <link rel="stylesheet" href="assets/css/blog.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+        },
+        svg: {
+          fontCache: "global",
+        },
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   </head>
   <body class="blog-page">
     <a class="skip-link" href="#article">Skip to article</a>
@@ -13,33 +25,57 @@
     <div class="blog-shell">
       <aside class="blog-sidebar" aria-label="Blog navigation">
         <a class="blog-mark" href="index.html" aria-label="HUGS project homepage">HUGS</a>
+        <div class="blog-meta" aria-label="Article metadata">
+          <p class="blog-meta-date">July 14, 2026</p>
+          <p class="blog-meta-team">
+            <span class="blog-authors-trigger">Tsinghua IRM Lab</span>
+            <span class="blog-authors-pop">
+              <a href="https://mingrui-yu.github.io/" target="_blank" rel="noopener">Mingrui Yu</a> ·
+              <a href="https://director-of-g.github.io" target="_blank" rel="noopener">Yongpeng Jiang</a> ·
+              <a href="#" rel="noopener">Yongyi Jia</a> ·
+              <a href="#" rel="noopener">Kangchen Lv</a> ·
+              <a href="#" rel="noopener">Xiangjie Yan</a> ·
+              <a href="#" rel="noopener">Li Huang</a> ·
+              <a href="#" rel="noopener">Yi Ren</a> ·
+              <a href="https://sites.google.com/view/homepageoflixiang" target="_blank" rel="noopener">Xiang Li</a>
+            </span>
+          </p>
+          <span class="blog-meta-readtime">12 min read</span>
+        </div>
         <nav class="blog-toc" aria-label="Article contents">
           <ol>
             <li><a href="#human-sim-real">Human → Sim → Real</a></li>
             <li><a href="#grasping-and-manipulation">Grasping and manipulation</a></li>
             <li><a href="#unified-grasping-challenge">The unified-grasping challenge</a></li>
             <li><a href="#hugs-framework">How HUGS responds</a></li>
+            <li><a href="#what-hugs-can-do">What HUGS can do</a></li>
+            <li><a href="#quantitative-results">Quantitative evidence</a></li>
+            <li><a href="#related-work">Related work</a></li>
+            <li><a href="#bibtex">Citation</a></li>
           </ol>
         </nav>
       </aside>
 
       <header class="blog-hero">
         <p class="blog-eyebrow">HUGS RESEARCH BLOG</p>
-        <h1>Towards <span class="hero-human">Human</span>-to-<span class="hero-sim">Sim</span>-to-<span class="hero-real">Real</span> Dexterous Manipulation: An Exploration Through Dexterous Grasping</h1>
-        <p>HUGS: Guiding Unified Dexterous Grasp Synthesis Across Modes and Scales via Learned Human Priors</p>
+        <h1>
+          <span class="hero-title-main">Towards <span class="hero-human">Human</span>-to-<span class="hero-sim">Sim</span>-to-<span class="hero-real">Real</span> Dexterous Manipulation</span>
+          <span class="hero-title-hugs">Through Unified Grasping with <span>HUGS</span></span>
+        </h1>
+        <p>Guiding Unified Dexterous Grasp Synthesis Across Modes and Scales via Learned Human Priors</p>
       </header>
 
       <main class="blog-article" id="article" aria-label="HUGS blog article">
-        <section class="blog-opening" aria-labelledby="at-a-glance-title">
+        <section class="blog-opening" aria-label="HUGS at a glance">
           <div class="blog-opening-copy">
             <p class="blog-kicker">HUGS at a glance</p>
-            <h2 id="at-a-glance-title">HUGS turns human grasp preferences into physically feasible robot grasps.</h2>
-            <p>To grasp an unfamiliar object, a robot must decide not only where to place its fingers, but also whether to use two fingers, one hand, or two—and how to approach the object. HUGS learns an <span class="term">object-conditioned human prior</span> that proposes <span class="term">contact modes</span> and <span class="term">wrist initializations</span>, then uses <span class="term">force-closure-aware optimization</span> to adapt those proposals to a robot hand. This creates a Human → Sim → Real path: human grasp preferences organize the search, simulation refines physically feasible grasps at scale, and the resulting <span class="term">multi-mode</span> choices can be evaluated in real-world deployment.</p>
+            <p><strong>HUGS is a step toward <span class="term">Human-to-Sim-to-Real</span> dexterous manipulation through unified dexterous grasping.</strong> Humans provide generalizable priors for navigating vast dexterous action spaces, while simulation provides the physical grounding to validate, refine, and scale those decisions before deployment in the real world.</p>
+            <p>HUGS bridges Human-to-Sim-to-Real by learning object-conditioned human grasp priors and transforming them into millions of physically feasible robot grasps. The resulting unified model enables <strong>multi-mode grasping across object scales, from two-finger grasps on tiny screws to bimanual grasps on large boxes</strong>.</p>
           </div>
 
           <figure class="blog-opening-teaser">
             <img src="figures/teaser.png" alt="HUGS pipeline showing human grasp demonstrations feeding a human prior, diverse synthesized robot grasps across object scales and contact modes, and real-world robotic grasping after model distillation.">
-            <figcaption>HUGS learns a human prior from grasp demonstrations, uses it to synthesize diverse robot grasps across object scales and contact modes, and distills the result for real-world robotic grasping.</figcaption>
+            <figcaption><strong>Human-to-Sim-to-Real with HUGS.</strong> HUGS learns object-conditioned human grasp priors, scales them into millions of physically feasible robot grasps across object scales and contact modes, and distills them into a unified model for real-world grasping.</figcaption>
           </figure>
 
           <figure class="blog-opening-video">
@@ -51,74 +87,275 @@
         <section id="human-sim-real" aria-labelledby="human-sim-real-title">
           <p class="blog-kicker">01 · Human → Sim → Real</p>
           <h2 id="human-sim-real-title">Why dexterous manipulation needs Human → Sim → Real</h2>
-          <p class="blog-lead">How can we connect human intuition about grasping, the scalable physics of simulation, and deployment on real robots? For unified dexterous grasping, these sources contribute priors, physical knowledge, and a test of deployability.</p>
 
           <h3>Contact-rich manipulation requires physical knowledge</h3>
-          <p>Stable contacts, friction, forces, object motion, and in-hand interaction are all governed by physics. Many current VLA/WAM-style frameworks rely primarily on real-robot teleoperation data to inject this physics knowledge into policies. Yet dexterous manipulation data are difficult to collect efficiently through teleoperation: collection is costly, the data are often tied to a particular embodiment, and people lack complete in-hand feedback for very fine dexterous control.</p>
-          <p>As a result, it is difficult to pursue both generalization to unfamiliar objects and scalable data collection for dexterous manipulation. HUGS does not seek to replace real data; it explores a path that connects human experience, scalable simulation, and real-world deployment.</p>
+          <p>Stable contacts, friction, forces, object motion, and in-hand interaction are all governed by physics. Many current VLA/WAM-style frameworks rely primarily on real-robot teleoperation data to inject this physics knowledge into policies.<sup id="fnref-pi05"><a href="#fn-pi05">1</a></sup><span class="blog-ref-note" id="fn-pi05" data-n="1"><a href="https://www.pi.website/blog/pi05" target="_blank" rel="noopener">&pi; 0.5: a VLA with Open-World Generalization</a> (Physical Intelligence, CoRL 2025) <a class="fn-back" href="#fnref-pi05" aria-label="back to text">&#8617;</a></span><sup>,</sup><sup id="fnref-lingbot-va"><a href="#fn-lingbot-va">2</a></sup><span class="blog-ref-note" id="fn-lingbot-va" data-n="2"><a href="https://technology.robbyant.com/lingbot-va" target="_blank" rel="noopener">LingBot-VA: Causal World Modeling for Robot Control</a> (RobbyAnt, RSS 2026) <a class="fn-back" href="#fnref-lingbot-va" aria-label="back to text">&#8617;</a></span> Yet dexterous manipulation data are difficult to collect efficiently through teleoperation: collection is costly, the data are often tied to a particular hand embodiment, and people lack complete in-hand feedback for very fine dexterous control. As a result, it is difficult to pursue scalable data collection towards generalization to unfamiliar objects for dexterous manipulation.</p>
 
           <h3>Sim: accumulating experience with high-fidelity physics</h3>
-          <p>High-fidelity physics simulation provides a lower-cost environment with more complete state and the freedom to explore physical interaction. It lets a system investigate contacts, forces, and recovery from failure at a scale far beyond real-robot teleoperation, accumulating physics knowledge for contact-rich manipulation.</p>
-          <p>Simulation does not remove the sim-to-real gap. The gap between simulation and the physical world remains a central bottleneck for robot learning and deployment, which is why real-world validation remains an indispensable part of this path.</p>
+          <p>High-fidelity physics simulation provides a lower-cost environment with more complete state and the freedom to explore physical interaction. It lets a system investigate contacts, forces, and recovery from failure at a scale far beyond real-robot teleoperation, accumulating physics knowledge for contact-rich manipulation.<sup id="fnref-simtoolreal"><a href="#fn-simtoolreal">3</a></sup><span class="blog-ref-note" id="fn-simtoolreal" data-n="3"><a href="https://simtoolreal.github.io/" target="_blank" rel="noopener">SimToolReal: An Object-Centric Policy for Zero-Shot Dexterous Tool Manipulation</a> (Kedia et al., RSS 2026) <a class="fn-back" href="#fnref-simtoolreal" aria-label="back to text">&#8617;</a></span></p>
+          <p>The sim-to-real gap remains a key challenge for robotics today. Rather than viewing it as a limitation, we see it as an opportunity: as simulation fidelity continues to improve, the gap will steadily narrow, making Human-to-Sim-to-Real an increasingly practical paradigm for robotic learning.</p>
 
           <h3>Human: providing priors for exploration and optimization</h3>
-          <p>Multi-fingered manipulation combines high-dimensional control with multiple contacts. Reinforcement learning or optimization from scratch must search a vast space of possible solutions, making high-quality grasps difficult to find efficiently. Human grasp preferences, formed through learning and practice, can provide prior, guidance, and constraint for robot policy exploration and optimization.</p>
-          <p>Human hands and robot hands do not share the same physical configuration, however, and human data have limited precision. Human data therefore do not replace robot optimization: Human supplies high-level priors, Sim supplies scalable physics knowledge, and Real tests and advances deployability. Together they define a promising Human → Sim → Real path.</p>
+          <p>Multi-fingered manipulation involves high-dimensional control and rich contact interactions, creating an enormous search space for reinforcement learning and optimization. Human grasp behaviors, accumulated through lifelong experience, provide powerful priors that guide exploration toward effective and natural solutions while reducing the search burden.<sup id="fnref-egoscale"><a href="#fn-egoscale">4</a></sup><span class="blog-ref-note" id="fn-egoscale" data-n="4"><a href="https://research.nvidia.com/labs/gear/egoscale/" target="_blank" rel="noopener">EgoScale: Scaling Dexterous Manipulation with Diverse Egocentric Human Data</a> (NVIDIA GEAR Lab, 2026) <a class="fn-back" href="#fnref-egoscale" aria-label="back to text">&#8617;</a></span> </p>
+          <p>Human demonstrations are not the final answer—they provide guidance rather than exact robot actions. Humans contribute semantic and strategic priors, simulation provides scalable physical grounding, and the real world ultimately validates and refines deployment. Together, they form a promising Human → Sim → Real paradigm for dexterous manipulation.</p>
         </section>
 
         <section id="grasping-and-manipulation" aria-labelledby="grasping-and-manipulation-title">
           <p class="blog-kicker">02 · Capability focus</p>
           <h2 id="grasping-and-manipulation-title">Grasping and general-purpose manipulation: two core challenges</h2>
-          <p>General-purpose dexterous manipulation seeks richer capabilities: using multi-finger freedom, contact transitions, and in-hand object motion to perform contact-rich, long-horizon, recoverable behaviors. It is an important goal, but it also demands a reliable understanding of contact, friction, forces, and object dynamics.</p>
-          <p>Grasping is a comparatively well-defined subset of this broader problem, so it should be addressed thoroughly first. If a system cannot reliably handle unfamiliar objects under application conditions, general-purpose dexterous manipulation will be even harder to bring into practice. Grasping is both a foundational skill and a key test of whether dexterous capability can connect to real tasks.</p>
+          <p>The long-term goal of dexterous robotics is general-purpose manipulation: enabling robots to perform the diverse manipulation behaviors that human hands can achieve.<sup id="fnref-billard-kragic"><a href="#fn-billard-kragic">5</a></sup><span class="blog-ref-note" id="fn-billard-kragic" data-n="5"><a href="https://doi.org/10.1126/science.aat8414" target="_blank" rel="noopener">Trends and Challenges in Robot Manipulation</a> (Billard &amp; Kragic, Science 2019) <a class="fn-back" href="#fnref-billard-kragic" aria-label="back to text">&#8617;</a></span> This vision requires fully exploiting multi-finger coordination, contact transitions, and in-hand object motion to produce contact-rich, long-horizon, and recoverable manipulation skills.</p>
+          <p>Grasping is a well-defined subset of this broader problem and should therefore be solved first. If robotic grasping cannot yet reach application-level robustness, general-purpose dexterous manipulation is even less likely to become practical. Grasping is therefore both a foundational capability and the first milestone toward general-purpose dexterous manipulation.</p>
 
           <div class="blog-callout" role="note">
-            <p><strong>The current emphases differ.</strong> Grasping first seeks generalization across object geometries, scales, poses, and reachable contact regions; general-purpose manipulation first seeks contact-rich dexterity. They share a physical foundation and depend on one another in real tasks.</p>
+            <p><strong>The current priorities differ.</strong> Both grasping and manipulation depend on understanding contact, friction, force, and object dynamics, making physics knowledge fundamental to both. However, grasping primarily pursues generalization across diverse objects and environments, while general-purpose manipulation primarily pursues dexterity through rich contact interactions.<sup id="fnref-chord"><a href="#fn-chord">6</a></sup><span class="blog-ref-note" id="fn-chord" data-n="6"><a href="https://nvidia-isaac.github.io/video_to_data/chord/" target="_blank" rel="noopener">CHORD: Learning Dexterous Manipulation Using Contact Wrench Guidance From Human Demonstration</a> (NVIDIA, 2026) <a class="fn-back" href="#fnref-chord" aria-label="back to text">&#8617;</a></span></p>
           </div>
 
-          <p>For an unfamiliar object, grasping means more than simply lifting it. A system must find a stable initial grasp across different geometries, scales, poses, and scene constraints while preserving useful options for later placement or manipulation. This broad zero-shot generalization makes grasping a foundational capability for wider robotic applications.</p>
+          <p>A practical grasping system should be able to pick up arbitrary objects from arbitrary poses and place them wherever they are needed. Achieving this requires broad zero-shot generalization to unfamiliar objects with diverse geometries, scales, poses, and reachable contact regions, while discovering stable initial grasps under realistic scene constraints. Such capability alone would already unlock enormous practical and commercial value.</p>
         </section>
 
         <section id="unified-grasping-challenge" aria-labelledby="unified-grasping-challenge-title">
-          <p class="blog-kicker">03 · The search problem</p>
-          <h2 id="unified-grasping-challenge-title">The challenge of unified grasping: generalization across scales and modes</h2>
-          <p>Parallel grippers are constrained by their opening range, contact geometry, and load configurations. Dexterous hands and bimanual coordination expand the space of object geometries, scales, and contact patterns that a robot can handle. A small object may call for a two-finger pinch, while a large box or water jug may require a bimanual grasp.</p>
-          <p>Truly general grasping must not only adapt to new categories, but also span very small to very large objects without prescribing a strategy for every scale. Object scale changes whether one or two hands are appropriate, how many fingers should contact the object, the approach direction, and the reachable contact regions. The same object can also admit multiple reasonable grasps under different scene constraints.</p>
+          <p class="blog-kicker">03 · The challenge of unified grasping</p>
+          <h2 id="unified-grasping-challenge-title">Generalization across scales and modes</h2>
+          <p>Parallel grippers are inherently limited by their opening range, contact geometry, and load configuration, often restricting them to a narrow set of grasping strategies. Dexterous hands and bimanual systems dramatically expand this capability, enabling robots to grasp objects ranging from tiny screws with two fingers to large boxes with coordinated bimanual grasps.</p>
 
-          <div class="search-problem" aria-label="Discrete and continuous variables in unified grasp search">
-            <div>
-              <p class="search-problem-label">Discrete choices</p>
-              <h3>contact modes</h3>
-              <p>The system must choose between one or two hands, determine which fingers make contact, and select a contact pattern. Each mode has its own feasible region and constraints.</p>
-            </div>
-            <div>
-              <p class="search-problem-label">Continuous optimization</p>
-              <h3>wrist pose</h3>
-              <p>Even after selecting a mode, the wrist position and orientation must be adjusted precisely to reach suitable contacts, avoid collision, and satisfy stability requirements.</p>
-            </div>
+          <figure class="blog-placeholder-figure blog-small-image-figure">
+            <img src="figures/real_objects.png" alt="Everyday objects of many scales arranged as examples for unified bimanual dexterous grasping.">
+            <figcaption><strong>Everyday objects span a wide range of scales.</strong> A unified bimanual dexterous-hand system should reason over tiny, handheld, and bulky objects within the same grasping framework, selecting contact modes and wrist initializations that match each object and scene.</figcaption>
+          </figure>
+
+          <p>This flexibility, however, also introduces a much harder search problem. As object geometry, scale, pose, and scene constraints change, the appropriate grasp strategy changes as well. The robot must determine whether to use one hand or two, how many fingers should participate, where to approach the object, and which contact regions remain reachable. Even a single object may admit multiple equally valid grasps depending on the downstream task and surrounding environment.</p>
+
+          <div class="blog-callout" role="note">
+            <p><strong>Scale changes grasp modes.</strong> As objects become larger or smaller, successful grasping may require different numbers of hands, different finger participation, and entirely different contact patterns. Generalization therefore extends beyond object categories—it must also span object scales and grasp modes.</p>
           </div>
 
-          <p>These two problems are coupled. Each set of <span class="term">contact modes</span> has a different feasible wrist-pose region; whenever scale, geometry, or scene constraints change, the discrete mode choice and continuous pose optimization must be coordinated again. Unified dexterous grasping is therefore not a single continuous optimization problem, but a complex discrete-continuous search problem.</p>
+          <p>Unified dexterous grasping therefore goes beyond finding a stable five-fingered grasp. It requires discovering an appropriate grasp strategy across diverse object scales, geometries, poses, and scene constraints, while preserving the flexibility needed for subsequent manipulation. This broad zero-shot generalization is the central challenge that HUGS aims to address.</p>
         </section>
 
         <section id="hugs-framework" aria-labelledby="hugs-framework-title">
           <p class="blog-kicker">04 · HUGS</p>
           <h2 id="hugs-framework-title">HUGS: applying Human → Sim → Real to unified dexterous grasping</h2>
-          <p class="blog-lead">HUGS is a <span class="term">Human-prior-guided</span> framework and an attempt to apply the Human → Sim → Real path to unified dexterous grasping. It first learns how human grasps organize the search space, then lets the robot carry out physics-aware optimization under its own embodiment constraints in simulation, while retaining multi-mode choices for real-world deployment.</p>
+          <p class="blog-lead">HUGS is a <span class="term">Human-prior-guided</span> framework for <span class="term">Unified dexterous Grasp Synthesis</span> across modes and scales. Instead of directly retargeting human demonstrations, it learns an <span class="term">object-conditioned human prior</span> that proposes grasp modes and wrist starting points, then lets robot-specific optimization turn those proposals into physically feasible grasps.</p>
+
+          <h3>The search is hybrid: discrete contact, continuous wrist pose</h3>
+          <p>In grasp pose optimization, the contact configuration \(c\) determines the number and locations of contact points, making the problem hybrid discrete-continuous. Existing methods typically reduce the combinatorial search space with predefined contact regions. Meanwhile, the wrist pose \(\mathbf{T}\) is highly global, and poor initializations often trap local optimization in suboptimal minima.</p>
+          <p>Consequently, optimization quality largely depends on initializing \(c\) and \(\mathbf{T}\), while optimizing the hand joint configuration \(\mathbf{Q}\) is relatively straightforward given suitable \(c\) and \(\mathbf{T}\). Existing methods mainly use fixed coarse heuristics to initialize contact configurations and wrist poses<sup id="fnref-dexgraspnet"><a href="#fn-dexgraspnet">7</a></sup><span class="blog-ref-note" id="fn-dexgraspnet" data-n="7"><a href="https://arxiv.org/abs/2210.02697" target="_blank" rel="noopener">DexGraspNet: A Large-Scale Robotic Dexterous Grasp Dataset for General Objects Based on Simulation</a> (Wang et al., ICRA 2023) <a class="fn-back" href="#fnref-dexgraspnet" aria-label="back to text">&#8617;</a></span><sup>,</sup><sup id="fnref-bodex"><a href="#fn-bodex">8</a></sup><span class="blog-ref-note" id="fn-bodex" data-n="8"><a href="https://arxiv.org/abs/2412.16490" target="_blank" rel="noopener">BODex: Scalable and Efficient Robotic Dexterous Grasp Synthesis Using Bilevel Optimization</a> (Chen et al., ICRA 2025) <a class="fn-back" href="#fnref-bodex" aria-label="back to text">&#8617;</a></span><sup>,</sup><sup id="fnref-bidexgrasp"><a href="#fn-bidexgrasp">9</a></sup><span class="blog-ref-note" id="fn-bidexgrasp" data-n="9"><a href="https://arxiv.org/abs/2604.06589" target="_blank" rel="noopener">BiDexGrasp: Coordinated Bimanual Dexterous Grasps across Object Geometries and Sizes</a> (Lin et al., 2026) <a class="fn-back" href="#fnref-bidexgrasp" aria-label="back to text">&#8617;</a></span>, manually restricting to predefined strategies or wasting optimization budget on implausible modes. <strong>HUGS instead learns an object-conditioned human grasp prior to organize the search space before robot-specific optimization.</strong></p>
+
+          <p><strong>Four contact modes organize the search.</strong> HUGS uses <strong>Single-Two</strong> for small two-finger grasps, <strong>Single-Three</strong> as the minimum for force closure under frictional point contacts, <strong>Single-Full</strong> for denser single-hand grasps, and <strong>Both-Full</strong> for bimanual grasps on larger objects.</p>
+
+          <div class="blog-equation" aria-label="HUGS factorization of grasp synthesis">
+            \[
+            \pi(\mathbf{Q}, \mathbf{T}, c \mid o)
+            =
+            \pi(\mathbf{Q}, \mathbf{T} \mid \mathbf{T}_0, c, o)\,
+            \pi(\mathbf{T}_0 \mid c, o)\,
+            \pi(c \mid o)
+            \]
+          </div>
+
+          <p>Based on this contact-mode abstraction, the learned prior predicts \(\pi(c \mid o)\) and \(\pi(\mathbf{T}_0 \mid c, o)\) to propose plausible <span class="term">contact modes</span> \(c\) and <span class="term">wrist initializations</span> \(\mathbf{T}_0\). Conditioned on these high-level proposals, the robot optimizer solves for \(\mathbf{Q}\) and refines \(\mathbf{T}\) under <span class="term">force-closure-aware optimization</span> and feasibility constraints. The resulting large-scale dataset of synthesized grasps is then distilled into a <span class="term">generative model</span> that, conditioned on the actual object geometry, automatically generates the appropriate grasp mode and robot configuration, enabling real-time grasp prediction at deployment.</p>
 
           <figure class="blog-full-width">
             <img src="figures/overview.png" alt="Overview of HUGS: an object-conditioned human prior proposes contact modes and wrist initializations, which a robot optimizer turns into stable grasps.">
-            <figcaption>HUGS turns human grasp preferences into object-conditioned high-level proposals. These proposals are not final grasps; they are starting points and constraints for robot optimization.</figcaption>
+            <figcaption><strong>Overview of HUGS.</strong> HUGS learns an <span class="term">object-conditioned human prior</span> from demonstrations with geometry, wrist poses, and contact modes. During synthesis, it predicts contact-mode distributions and wrist initializations for unseen objects, transfers them to robot hands, and optimizes force closure under feasibility constraints.</figcaption>
           </figure>
 
-          <h3>First, learn an object-conditioned human grasp prior</h3>
-          <p>Before optimization, HUGS learns an <span class="term">object-conditioned human prior</span>. Rather than directly retargeting human hand poses, this prior organizes a more meaningful search space for the robot: it proposes plausible <span class="term">contact modes</span> and provides suitable <span class="term">wrist initializations</span> within each mode.</p>
+          <div class="blog-benefits" aria-label="Human Prior plus Robot Optimization advantages">
+            <article class="blog-benefit">
+              <p class="blog-benefit-index">1</p>
+              <h3>Adaptivity</h3>
+              <p>Compared with hand-crafted heuristics, the learned human prior provides object-aware global guidance that constrains optimization to more suitable regions of the search space.</p>
+            </article>
+            <article class="blog-benefit">
+              <p class="blog-benefit-index">2</p>
+              <h3>Scalability</h3>
+              <p>Unlike direct retargeting, the learned prior generalizes to unseen objects, enabling scalable synthesis of large and diverse robotic grasp datasets from limited human demonstrations.</p>
+            </article>
+            <article class="blog-benefit">
+              <p class="blog-benefit-index">3</p>
+              <h3>Physical Plausibility</h3>
+              <p>Force-aware optimization accounts for robot-specific kinematics and task physics, while tolerating small errors in the coarse human prior.</p>
+            </article>
+          </div>
+        </section>
 
-          <h3>Then, realize stable grasps through robot optimization</h3>
-          <p>The human prior supplies high-level proposals, not a final robot-hand solution. The robot still optimizes joint configurations and poses for its own hand geometry, collision constraints, and physical feasibility. HUGS uses <span class="term">force-closure-aware optimization</span> to refine these object-conditioned proposals into feasible, stable robotic grasps.</p>
-          <p class="blog-note">In short, Human proposes where and with which contact pattern to begin searching; robot optimization in Sim determines whether and how that proposal can become a stable grasp. The following sections will develop the evidence chain through the human prior, simulation-based synthesis, and real-world deployment.</p>
+        <section id="what-hugs-can-do" aria-labelledby="what-hugs-can-do-title">
+          <p class="blog-kicker">06 · What HUGS can do</p>
+          <h2 id="what-hugs-can-do-title">Unified dexterous grasping across modes and scales</h2>
+          <p>HUGS brings together three connected capabilities within a unified framework: learning a generalizable human grasp prior across modes and scales, synthesizing large-scale robot grasp datasets in simulation, and inferring feasible grasps for real-world deployment.</p>
+
+          <h3>1. Generalizable human grasp prior </h3>
+          <p>The human prior is the first capability exposed by HUGS. It is learned from HUGS-Human, our self-collected human dataset containing 304 objects, 1.8K distinct grasps, and a broad range of object scales and contact modes. Rather than directly becoming the robot grasp, the learned prior shapes contact-mode and wrist-pose proposals, making downstream optimization more targeted across diverse object scales and grasp modes.</p>
+
+          <figure class="blog-full-width">
+            <video src="videos/human_grasps.mp4" muted controls playsinline preload="metadata" aria-label="Examples from the self-collected human grasp dataset."></video>
+            <figcaption><strong>Self-collected human grasp dataset.</strong> HUGS-Human contains <strong>304 objects</strong>, <strong>1.8K distinct grasps</strong>, and a broad range of object scales and contact modes.</figcaption>
+          </figure>
+
+          <div class="blog-media-stack">
+            <figure class="blog-prior-small-figure">
+              <img src="figures/human_prior_contact_mode.jpg" alt="Predicted contact-mode distributions from the human prior for diverse object point clouds.">
+              <figcaption><strong>Contact-mode prior predictions.</strong> The learned human prior predicts object-conditioned probabilities over Single-Two, Single-Three, Single-Full, and Both-Full modes.</figcaption>
+            </figure>
+            <figure class="blog-prior-small-figure">
+              <img src="figures/human_prior_contact_mode_with_wrist_pose.jpg" alt="Mode-conditioned wrist-pose samples showing different preferred approach regions for different contact modes.">
+              <figcaption><strong>Mode-conditioned wrist-pose prior.</strong> For the same object, different modes can favor different approach regions, such as top-down single-hand grasps or side and top bimanual approaches.</figcaption>
+            </figure>
+          </div>
+
+          <h3>2. Large-scale grasp synthesis</h3>
+          <p>Guided by the learned human prior, HUGS efficiently synthesizes large-scale robot grasps across diverse object scales and contact modes. The examples below illustrate that the same synthesis pipeline generalizes to different robotic hands, including both the Shadow Hand and the LEAP Hand.</p>
+
+          <div class="blog-media-grid blog-media-grid-stacked">
+            <figure>
+              <figcaption>Shadow Hand</figcaption>
+              <img src="figures/synthesis_shadow.png" alt="Synthesized HUGS grasps for Shadow Hand across objects and contact modes.">
+            </figure>
+            <figure>
+              <figcaption>LEAP Hand</figcaption>
+              <img src="figures/synthesis_leap.png" alt="Synthesized HUGS grasps for LEAP Hand across objects and contact modes.">
+            </figure>
+          </div>
+
+          <p class="blog-note">HUGS synthesizes <strong>3.2M robotic grasps</strong> over <strong>157K scenes</strong> on one robotic hand, spanning object half-diagonal lengths from <strong>2 cm to 30 cm</strong> and contact modes from <strong>two-finger pinches</strong> to <strong>bimanual grasps</strong>. The same object can also admit multiple contact modes, reflecting the <span class="term">multi-mode</span> nature of dexterous grasping.</p>
+
+          <h3>3. Real-world grasp inference</h3>
+          <p>The final step is bringing HUGS into the real world. A grasp generator trained on the large-scale synthetic dataset produced by HUGS learns to directly predict contact modes and grasp poses, enabling adaptive grasp selection across diverse object scales and cluttered scene constraints.</p>
+
+          <figure class="blog-full-width">
+            <video src="videos/real_world_grasps_teaser.mp4" muted controls playsinline preload="metadata" aria-label="Real-world HUGS grasping demonstrations with LEAP Hands."></video>
+            <figcaption><strong>Real-world grasping with LEAP Hands.</strong> Across <strong>24 objects</strong>, from a screw with a <strong>0.5 cm</strong> half-diagonal to a bucket with a <strong>30 cm</strong> half-diagonal, the generator adaptively selects suitable contact modes and grasp poses.</figcaption>
+          </figure>
+
+          <figure class="blog-full-width">
+            <video src="videos/real_diversity_demo.mp4" muted controls playsinline preload="metadata" aria-label="Same-object real-world demonstration showing different contact modes under different scene constraints."></video>
+            <figcaption><strong>Same object, different contact modes.</strong> In clutter, a top-down single-hand grasp can remain feasible while side bimanual grasping is blocked. When the box is loaded, bimanual grasping becomes necessary to provide sufficient grasping force.</figcaption>
+          </figure>
+          <p class="blog-note">Mode diversity is not only a synthesis metric. It gives deployment a set of alternatives so scene constraints, reachability, and required grasping force can determine which valid grasp should be used.</p>
+        </section>
+
+        <section id="quantitative-results" aria-labelledby="quantitative-results-title">
+          <p class="blog-kicker">07 · Quantitative evidence</p>
+          <h2 id="quantitative-results-title">Does HUGS improve unified dexterous grasping across modes and scales?</h2>
+          <p>After the capability view, the quantitative evidence follows the paper's three evaluation questions. First, does the object-conditioned human prior predict contact modes better than scalar-scale rules? Second, does that guidance improve efficient multi-mode grasp synthesis? Third, can the synthesized grasps supervise an online grasp generator?</p>
+
+          <h3>Does Human Prior Predict Contact Modes Better than Scalar-Scale Rules?</h3>
+          <p>Scale matters, but scale alone is not enough. The scalar-scale baseline groups objects by AABB half-diagonal length and predicts contact-mode distributions from training-set statistics, so it captures broad size trends while ignoring object geometry. On held-out HUGS-Human objects, the learned human prior better matches contact-mode preferences across all three metrics.</p>
+
+          <div class="blog-table-wrap" role="region" aria-label="Contact-mode prediction comparison on held-out objects" tabindex="0">
+            <table class="blog-data-table">
+              <caption>Table 1. Comparison of contact-mode prediction on held-out objects.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">KL &darr;</th>
+                  <th scope="col">Prec. &uarr;</th>
+                  <th scope="col">Rec. &uarr;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Scale Rules</th>
+                  <td>0.612</td>
+                  <td>0.805</td>
+                  <td>0.892</td>
+                </tr>
+                <tr>
+                  <th scope="row">Human Prior</th>
+                  <td><strong>0.300</strong></td>
+                  <td><strong>0.873</strong></td>
+                  <td><strong>0.964</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <figure class="blog-full-width">
+            <img src="figures/human_dataset_stat.png" alt="Statistics of the HUGS-Human dataset, including object-count distribution, average grasps per object, and contact-mode distribution.">
+            <figcaption><strong>Statistics of HUGS-Human Dataset.</strong> The human grasp data provides the contact-mode evidence used to learn geometry-aware preferences, rather than relying only on object scale bins.</figcaption>
+          </figure>
+
+          <h3>Does Human-Prior Guidance Improve Efficient Multi-Mode Grasp Synthesis?</h3>
+          <p>The synthesis experiment tests whether better mode prediction and better wrist initializations translate into validated robot grasps. HUGS uses the human prior to allocate optimization budget by object geometry and to initialize wrists, while the heuristic baselines use scalar-scale mode rules and convex-hull wrist sampling.</p>
+          <figure class="blog-full-width">
+            <img src="figures/object_scale_synthesis_success_diversity_combined.png" alt="Contact-mode allocation, synthesis success rate, and pose diversity across object scales.">
+            <figcaption><strong>Contact-mode allocation and synthesis success across object scales.</strong> HUGS allocates optimization budget by object geometry, shifting from Single-Two to Single-Three, Single-Full, and Both-Full as scale grows, while still capturing object-specific exceptions within the same scale.</figcaption>
+          </figure>
+          <p>Heuristic baselines reveal the limits of scale-only rules. <strong>Heur-Fix</strong> works only near the scale suited to Single-Full. <strong>Heur-Single</strong> is more robust, but one scale-dependent mode cannot cover multiple valid strategies within the same scale. <strong>Heur-Multi</strong> adds mode diversity, yet wastes attempts on object-specific mismatches. HUGS consistently outperforms these baselines by making object-conditioned mode and wrist proposals.</p>
+          <p>Pose diversity also needs interpretation. HUGS has lower pose dispersion because it concentrates on human-preferred wrist regions. This is expected: heuristic sampling increases diversity partly through unnatural reversed wrist poses, which are difficult for humanoid robots to execute.</p>
+          <figure class="blog-full-width">
+            <img src="figures/unnatual_grasps.png" alt="Heuristic wrist-pose sampling producing unnatural reversed wrist poses." style="width: 40%; margin: 0 auto;">
+            <figcaption><strong>Unnatural grasps from heuristic sampling.</strong> Random wrist-pose sampling can produce reversed wrist poses that inflate apparent diversity while being difficult for humanoid robots to execute.</figcaption>
+          </figure>
+
+          <h3>Can Synthesized Grasps Supervise Online Grasp Generators?</h3>
+          <p>The final question moves from offline synthesis to learned inference. The paper trains identical lightweight object-conditioned generators on Heur-Multi data and HUGS data, then evaluates contact-mode availability prediction and grasp success on held-out scenes across scales.</p>
+          <figure class="blog-full-width">
+            <img src="figures/shadow_robot_type_object_scale_success_combined.png" alt="Distillation results from synthesized grasps.">
+            <figcaption><strong>Distilling from synthesized grasps.</strong> A generator trained on HUGS data better predicts contact-mode availability and achieves higher simulated grasp success than the same architecture trained on Heur-Multi data.</figcaption>
+          </figure>
+          <p>With HUGS data, contact-mode availability is accurately predicted, reaching a best F1 score of <strong>0.934</strong>. In simulation, the HUGS-trained generator achieves higher grasp success than the Heur-Multi-trained one, showing that HUGS produces easier-to-learn training data with better tolerance to generated-grasp errors. Success remains above <strong>70%</strong> for medium objects (6-13 cm), but drops on very small and large objects, showing that cross-scale, cross-mode grasp generation remains challenging.</p>
+        </section>
+        <section id="related-work" aria-labelledby="related-work-title">
+          <p class="blog-kicker">08 · Related work</p>
+          <h2 id="related-work-title">How HUGS differs from closely related work</h2>
+          <p>Recent months have seen several exciting works exploring similar directions in dexterous grasping. We are excited to see the community making rapid progress toward more general robotic grasping. Rather than comparing methods to declare a winner, our goal here is simply to highlight the design choices that distinguish HUGS from the most closely related recent work. Many of these approaches also contain valuable ideas that we find insightful and inspiring.</p>
+
+          <article class="blog-related-item">
+            <h3>HUG: Human Universal Grasping, 2026<sup id="fnref-hug"><a href="#fn-hug">10</a></sup></h3>
+            <span class="blog-ref-note" id="fn-hug" data-n="10"><a href="https://grasping.io" target="_blank" rel="noopener">HUG: Human Universal Grasping</a> (Wu et al., 2026) <a class="fn-back" href="#fnref-hug" aria-label="back to text">&#8617;</a></span>
+            <p>HUG primarily studies human grasp generation: it uses smart glasses to collect a much larger human grasp dataset and learns a generative model of human grasps, covering single-hand grasps of moderately sized objects. In contrast, HUGS targets robot grasp synthesis across a broader range of object scales and contact modes, from two-finger pinches to bimanual grasps. HUG obtains robot grasps by directly kinematically retargeting generated human grasps, without an explicit physical plausibility guarantee. Its large-scale in-the-wild collection strategy and human grasp generation network are highly inspiring, and could be incorporated into the HUGS framework.</p>
+          </article>
+
+          <article class="blog-related-item">
+            <h3>SynManDex: Synthesizing Human-like Dexterous Grasps from Synthetic Human Pre-Grasps, 2026<sup id="fnref-synmandex"><a href="#fn-synmandex">11</a></sup></h3>
+            <span class="blog-ref-note" id="fn-synmandex" data-n="11"><a href="https://tsunami-kun.github.io/SynManDex/" target="_blank" rel="noopener">SynManDex: Synthesizing Human-like Dexterous Grasps from Synthetic Human Pre-Grasps</a> (Shao et al., 2026) <a class="fn-back" href="#fnref-synmandex" aria-label="back to text">&#8617;</a></span>
+            <p>SynManDex also follows a Human Prior + Robot Optimization paradigm. Its human prior encodes human wrist poses and pre-grasp finger configurations, whereas HUGS encodes human wrist poses together with contact modes. Pre-grasp finger configurations serve only as optimization initializations, while contact modes in HUGS act as explicit optimization targets. SynManDex mainly corresponds to the Single-Full and Both-Full modes and does not cover very small objects that require two-finger pinch grasps. It contributes full executable grasp trajectories rather than only single-frame grasp poses, making trajectory synthesis a natural future direction for HUGS.</p>
+          </article>
+
+          <article class="blog-related-item">
+            <h3>UltraDexGrasp: Learning Universal Dexterous Grasping for Bimanual Robots with Synthetic Data, 2026<sup id="fnref-ultradexgrasp"><a href="#fn-ultradexgrasp">12</a></sup></h3>
+            <span class="blog-ref-note" id="fn-ultradexgrasp" data-n="12"><a href="https://yangsizhe.github.io/ultradexgrasp/" target="_blank" rel="noopener">UltraDexGrasp: Learning Universal Dexterous Grasping for Bimanual Robots with Synthetic Data</a> (Yang et al., ICRA 2026) <a class="fn-back" href="#fnref-ultradexgrasp" aria-label="back to text">&#8617;</a></span>
+            <p>UltraDexGrasp is closely related to the Heur-Single baseline: it covers the four contact modes defined in HUGS, but assigns each object scale to a fixed contact mode and initializes wrist poses through heuristic random sampling. HUGS predicts both contact modes and wrist initializations from learned human priors, enabling more adaptive mode selection conditioned on full object geometry rather than a scalar size measure. HUGS also preserves diverse synthesized grasps, allowing deployment-time constraints to choose among alternatives.</p>
+          </article>
+        </section>
+
+        <section id="bibtex" aria-labelledby="bibtex-title">
+          <p class="blog-kicker">09 · Citation</p>
+          <h2 id="bibtex-title">BibTeX</h2>
+          <pre class="bibtex"><code>@article{yu2026hugs,
+  title={HUGS: Guiding Unified Dexterous Grasp Synthesis Across Modes and Scales via Learned Human Priors},
+  author={Mingrui Yu and Yongpeng Jiang and Yongyi Jia and Kangchen Lv and Xiangjie Yan and Li Huang and Yi Ren and Xiang Li},
+  journal={arXiv preprint arXiv:2607.04554},
+  year={2026},
+}</code></pre>
         </section>
       </main>
     </div>
+    <script>
+      (function () {
+        var toc = document.querySelector('.blog-toc');
+        if (!toc) return;
+        var links = Array.from(toc.querySelectorAll('a[href^="#"]'));
+        var sections = links
+          .map(function (l) { return document.querySelector(l.getAttribute('href')); })
+          .filter(Boolean);
+        if (!sections.length) return;
+
+        function update() {
+          var active = sections[0];
+          for (var i = 0; i < sections.length; i++) {
+            if (sections[i].getBoundingClientRect().top <= 60) active = sections[i];
+          }
+          links.forEach(function (l) {
+            var isCurrent = l.getAttribute('href') === '#' + active.id;
+            l.setAttribute('aria-current', isCurrent ? 'true' : 'false');
+          });
+        }
+
+        document.addEventListener('scroll', update, { passive: true });
+        update();
+      })();
+    </script>
   </body>
 </html>
