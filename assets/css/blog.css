@@ -815,6 +815,14 @@ sup[id] {
 }
 
 @media (max-width: 1180px) {
+  .blog-article .blog-opening-teaser img,
+  .blog-small-image-figure img,
+  .blog-prior-small-figure img,
+  .blog-narrow-figure img {
+    width: 100%;
+    min-width: 0;
+  }
+}
   .blog-shell {
     width: min(724px, calc(100% - 40px));
     display: flex;
@@ -915,6 +923,11 @@ sup[id] {
 
 .blog-prior-small-figure img {
   width: 80%;
+  margin: 0 auto;
+}
+
+.blog-narrow-figure img {
+  width: 40%;
   margin: 0 auto;
 }
 

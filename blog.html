@@ -244,7 +244,7 @@
 
           <figure class="blog-full-width">
             <video src="videos/real_world_grasps_teaser.mp4" muted controls playsinline preload="metadata" aria-label="Real-world HUGS grasping demonstrations with LEAP Hands."></video>
-            <figcaption><strong>Real-world grasping with LEAP Hands.</strong> Across <strong>24 objects</strong>, from a screw with a <strong>0.5 cm</strong> half-diagonal to a bucket with a <strong>30 cm</strong> half-diagonal, the generator adaptively selects suitable contact modes and grasp poses.</figcaption>
+            <figcaption><strong>Real-world grasping with LEAP Hands.</strong> Across <strong>24 objects</strong>, from a screw with a <strong>0.5 cm</strong> half-diagonal to a bucket with a <strong>30 cm</strong> half-diagonal, the generator adaptively selects suitable contact modes and grasp poses. More real-world executions are available on the <a href="https://hugs-dex.github.io/index.html" target="_blank" rel="noopener">project website</a>.</figcaption>
           </figure>
 
           <figure class="blog-full-width">
@@ -269,8 +269,8 @@
                 <tr>
                   <th scope="col">Method</th>
                   <th scope="col">KL &darr;</th>
-                  <th scope="col">Prec. &uarr;</th>
-                  <th scope="col">Rec. &uarr;</th>
+                  <th scope="col">Precision &uarr;</th>
+                  <th scope="col">Recall &uarr;</th>
                 </tr>
               </thead>
               <tbody>
@@ -303,8 +303,8 @@
           </figure>
           <p>Heuristic baselines reveal the limits of scale-only rules. <strong>Heur-Fix</strong> works only near the scale suited to Single-Full. <strong>Heur-Single</strong> is more robust, but one scale-dependent mode cannot cover multiple valid strategies within the same scale. <strong>Heur-Multi</strong> adds mode diversity, yet wastes attempts on object-specific mismatches. HUGS consistently outperforms these baselines by making object-conditioned mode and wrist proposals.</p>
           <p>Pose diversity also needs interpretation. HUGS has lower pose dispersion because it concentrates on human-preferred wrist regions. This is expected: heuristic sampling increases diversity partly through unnatural reversed wrist poses, which are difficult for humanoid robots to execute.</p>
-          <figure class="blog-full-width">
-            <img src="figures/unnatual_grasps.png" alt="Heuristic wrist-pose sampling producing unnatural reversed wrist poses." style="width: 40%; margin: 0 auto;">
+          <figure class="blog-full-width blog-narrow-figure">
+            <img src="figures/unnatual_grasps.png" alt="Heuristic wrist-pose sampling producing unnatural reversed wrist poses.">
             <figcaption><strong>Unnatural grasps from heuristic sampling.</strong> Random wrist-pose sampling can produce reversed wrist poses that inflate apparent diversity while being difficult for humanoid robots to execute.</figcaption>
           </figure>
 
