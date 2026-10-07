@@ -296,6 +296,15 @@ html {
   white-space: nowrap;
 }
 
+.blog-meta-venue {
+  margin: 0 0 8px;
+  color: var(--blog-accent);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
 .blog-meta-date + .blog-meta-team {
   margin-top: 0;
 }

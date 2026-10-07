@@ -141,6 +141,7 @@ h1:empty {
 .subtitle:empty,
 .authors:empty,
 .affiliations:empty,
+.venue:empty,
 .notes:empty,
 .abstract-text:empty,
 .section-heading h2:empty,
@@ -171,12 +172,20 @@ h1:empty {
 }
 
 .affiliations,
+.venue,
 .notes {
   width: min(900px, 100%);
   min-height: 20px;
   margin: 4px auto;
   color: var(--muted);
   font-size: 14px;
+}
+
+.venue {
+  margin-top: 12px;
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .affiliations:empty {
