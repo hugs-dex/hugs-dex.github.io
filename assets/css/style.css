@@ -188,6 +188,13 @@ h1:empty {
   font-weight: 700;
 }
 
+.award {
+  margin-top: 8px;
+  font-size: clamp(16px, 2.4vw, 18px);
+  line-height: 1.6;
+  text-wrap: balance;
+}
+
 .affiliations:empty {
   width: min(760px, 100%);
 }
